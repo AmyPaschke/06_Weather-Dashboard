@@ -84,8 +84,7 @@ button,
   background-color: rgb(255, 106, 175);
   border: rgb(255, 106, 175);
   align-items: center;
-  padding: 10px;
-  margin-left: 20px;
+  padding: 5px;
 }
 
 form {
