@@ -22,21 +22,66 @@
 <br />
   
   <section class="container">
-
     <div class="row" id="wrapper">
       <div class="col-lg-4">
-        <h1> Search </h1>
-      </div>
-      <div class="col-lg-8">
-        <div id="start-quiz">
-          <h1> City </h1>
-          <hr>
-          <p>
- 
-          </p>
+        <div class="card">
+          <div class="card-body">
+            <h3> Search </h3>
+            <hr>
+            <form>
+              <div class="form-group">
+                <label for="search">City Search:</label>
+                <input type="search" class="form-control" id="city-search" placeholder="City name">
+                <button type="submit" class="button">Search</button>
+              </div>
+            </form>
+            <hr>
+            <div id="previous-city-search"></div> 
+          </div>
         </div>
-      </div>   
+      </div>
+      
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="city"> City </h3>
+            <hr>
+            <div class="temperature"></div>
+            <div class="humidity"></div>
+            <div class="wind-speed"></div>
+            <div class="uv-index"></div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="card">
+          <div class="card-body">
+            <h3> 5-Day Forecast </h3>
+            <div class="row forecast-text">
+              <div class="col-lg-2 forecast" id="day-one">
+                <p>text example</p>
+              </div>
+              <div class="col-lg-2 forecast" id="day-two">
+
+              </div>
+              <div class="col-lg-2 forecast" id="day-three">
+
+              </div>
+              <div class="col-lg-2 forecast" id="day-four">
+
+              </div>
+              <div class="col-lg-2 forecast" id="day-five">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="assets/script.js"></script>
   </section>
 </body>
