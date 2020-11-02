@@ -59,7 +59,8 @@ function fetchResultsForCity(city) {
     method: "GET",
   })
     .fail(function () {
-      displaySearchError(city, response.cod);
+      //displaySearchError(city, response.cod);
+      console.log("Oops! We do not have data on that city name.");
     })
     .done(function (response) {
       let queryURL =
@@ -74,7 +75,7 @@ function fetchResultsForCity(city) {
         method: "GET",
       })
         .fail(function () {
-          displaySearchError(city, response.cod);
+          console.log("Oops! We do not have data on that city name.");
         })
         .done(function (response) {
           renderCityWeather(response);
@@ -100,8 +101,4 @@ function weatherQueryUrl(coord) {
     "&appid=" +
     APIKey
   );
-}
-
-function displaySearchError(city, error) {
-  console.log(error + ' "' + city + '"');
 }
