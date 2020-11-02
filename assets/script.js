@@ -13,7 +13,7 @@ WHEN I open the weather dashboard
 THEN I am presented with the last searched city forecast */
 
 let APIKey = "31d362c3396b74ca1d3b07eb462756e2";
-let searchedCities = document.getElementById("previous-city-search");
+let searchedCities = $("#previous-city-search");
 let city = null;
 
 //empty array we push cities into
@@ -31,12 +31,9 @@ $("#button").on("click", function (event) {
 
   previousCities.push(city);
 
-  console.log(previousCities[0]);
-
   fetchResultsForCity(city);
   storeCities(city);
   addToSearchHistory(city);
-  return city;
 });
 
 function storeCities() {
@@ -49,17 +46,25 @@ function renderCityWeather(results) {
 
 //something wrong with this function
 function addToSearchHistory() {
+  searchedCities.empty();
   for (let i = 0; i < previousCities.length; i++) {
     let cityNames = previousCities[i];
-    console.log(cityNames);
 
     let liElement = $("<li>");
     liElement.text(cityNames);
     liElement.attr("class", "previous-city");
 
-    searchedCities.append(JSON.stringify(liElement));
+    searchedCities.append(liElement);
   }
 }
+
+/*$(".previous-city").on("click", function (event) {
+  event.preventDefault();
+});
+
+/*for (let i = 0; i < localStorage.length; i++) {
+  console.log(localStorage.getItem(localStorage.key(i)));
+}*/
 
 function fetchResultsForCity(city) {
   let queryURL =

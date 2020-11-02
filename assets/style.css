@@ -37,6 +37,9 @@ p {
 .previous-city {
   color: #333333;
   margin: auto;
+  border-style: solid;
+  border-width: thin;
+  border-color: #333333;
 }
 
 /* specifically the section with the header*/
