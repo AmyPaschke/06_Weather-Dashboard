@@ -13,40 +13,50 @@ WHEN I open the weather dashboard
 THEN I am presented with the last searched city forecast */
 
 let APIKey = "31d362c3396b74ca1d3b07eb462756e2";
+let searchedCities = document.getElementById("previous-city-search");
 let city = null;
 
-function queryCityWeather() {
+//empty array we push cities into
+let previousCities = [];
+
+$("#button").on("click", function (event) {
+  event.preventDefault();
+
   city = $("#city-search").val();
+
+  // Return from function early if submitted city is blank
+  if (city === "") {
+    return;
+  }
+
+  previousCities.push(city);
+
   fetchResultsForCity(city);
+  storeCities(city);
+  addToSearchHistory(city);
+  return city;
+});
+
+function storeCities() {
+  localStorage.setItem("city", JSON.stringify(previousCities));
 }
 
 function renderCityWeather(results) {
   console.log(results);
 }
 
-function addToSearchHistory(city) {}
+//something wrong with this function
+function addToSearchHistory() {
+  for (let i = 0; i < previousCities.length; i++) {
+    let cityNames = previousCities[i];
 
-/*async function fetchResultsForCity(city) {
-  var findCityResponse = await fetch(cityQueryUrl(city))
-    .then(response => response.json());
+    let liElement = $("<li>");
+    liElement.textContent = cityNames;
+    liElement.setAttribute("class", "previous-city");
 
-  if (findCityResponse.cod != 200) {
-    console.log(findCityResponse);
-    return displaySearchError(city, findCityResponse.message)
+    searchedCities.appendChild(liElement);
   }
-
-  var response = await fetch(weatherQueryUrl(findCityResponse.coord))
-    .then(response => response.json());
-
-  if (response.cod != undefined) {
-    console.log(response);
-    return displaySearchError(city, response.message)
-  } else {
-    renderCityWeather(response);
-  }
-
-  return { error: "Cannot find city called " + city, result: []};
-}*/
+}
 
 function fetchResultsForCity(city) {
   let queryURL =
