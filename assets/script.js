@@ -31,6 +31,8 @@ $("#button").on("click", function (event) {
 
   previousCities.push(city);
 
+  console.log(previousCities[0]);
+
   fetchResultsForCity(city);
   storeCities(city);
   addToSearchHistory(city);
@@ -49,12 +51,13 @@ function renderCityWeather(results) {
 function addToSearchHistory() {
   for (let i = 0; i < previousCities.length; i++) {
     let cityNames = previousCities[i];
+    console.log(cityNames);
 
     let liElement = $("<li>");
-    liElement.textContent = cityNames;
-    liElement.setAttribute("class", "previous-city");
+    liElement.text(cityNames);
+    liElement.attr("class", "previous-city");
 
-    searchedCities.appendChild(liElement);
+    searchedCities.append(JSON.stringify(liElement));
   }
 }
 
