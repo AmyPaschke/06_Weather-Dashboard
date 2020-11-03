@@ -14,6 +14,10 @@ THEN I am presented with the last searched city forecast */
 
 let APIKey = "31d362c3396b74ca1d3b07eb462756e2";
 let searchedCities = $("#previous-city-search");
+let temperature = $("#temperature");
+let humidity = $("#humidity");
+let windSpeed = $("#wind-speed");
+let uvIndex = $("#uv-index");
 let city = null;
 
 //empty array we push cities into
@@ -58,13 +62,10 @@ function addToSearchHistory() {
   }
 }
 
-/*$(".previous-city").on("click", function (event) {
+$(".previous-city").on("click", function (event) {
   event.preventDefault();
+  alert("you clicked me");
 });
-
-/*for (let i = 0; i < localStorage.length; i++) {
-  console.log(localStorage.getItem(localStorage.key(i)));
-}*/
 
 function fetchResultsForCity(city) {
   let queryURL =
