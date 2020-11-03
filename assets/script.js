@@ -3,8 +3,6 @@ WHEN I search for a city
 THEN I am presented with current and future conditions for that city and that city is added to the search history
 WHEN I view current weather conditions for that city
 THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-WHEN I view the UV index
-THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
 WHEN I view future weather conditions for that city
 THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
 WHEN I click on a city in the search history
@@ -25,6 +23,7 @@ let city = null;
 //empty array we push cities into
 let previousCities = [];
 
+//main function-- used to begin all other functions on the page
 $("#button").on("click", function (event) {
   event.preventDefault();
 
@@ -42,25 +41,39 @@ $("#button").on("click", function (event) {
   addToSearchHistory(city);
 });
 
+//displays an error message when a city name does not exist
 function displayMessage(type, message) {
   msgDiv.text(message);
   msgDiv.attr("class", type);
 }
 
+//stores city names in local storage
 function storeCities() {
   localStorage.setItem("city", JSON.stringify(previousCities));
 }
 
+//renders the weather information we need
 function renderCityWeather(response) {
   msgDiv.empty();
   console.log(response);
   cityName.html("<h3>" + city + "</h3>");
   temperature.text("Temperature: " + response.current.temp);
+
+  //sets the color of the uv index
+  if (response.current.uvi < 3) {
+    uvIndex.attr("class", "uv-favorable");
+  } else if (response.current.uvi >= 3 && response.current.uvi <= 6) {
+    uvIndex.attr("class", "uv-moderate");
+  } else {
+    uvIndex.attr("class", "uv-severe");
+  }
+
   humidity.text("Humidity: " + response.current.humidity);
   windSpeed.text("Wind Speed: " + response.current.wind_speed);
   uvIndex.text("UV Index: " + response.current.uvi);
 }
 
+//adds city names underneath search bar
 function addToSearchHistory() {
   searchedCities.empty();
   for (let i = 0; i < previousCities.length; i++) {
@@ -74,11 +87,14 @@ function addToSearchHistory() {
   }
 }
 
-$(".previous-city").on("click", function (event) {
+//when you click the city name under the search bar, it will re-do the search for that city
+$(document).on("click", ".previous-city", function (event) {
   event.preventDefault();
-  alert("you clicked me");
+  fetchResultsForCity(city);
+  renderCityWeather();
 });
 
+//main function finding the information from the API
 function fetchResultsForCity(city) {
   let queryURL =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -118,7 +134,7 @@ function fetchResultsForCity(city) {
         });
     });
 }
-
+/*
 function cityQueryUrl(city) {
   return (
     "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -137,4 +153,4 @@ function weatherQueryUrl(coord) {
     "&appid=" +
     APIKey
   );
-}
+} */

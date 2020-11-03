@@ -80,6 +80,21 @@ hr {
   color: #333333;
 }
 
+.uv-favorable {
+  background-color: green;
+  color: aliceblue;
+}
+
+.uv-moderate {
+  background-color: yellow;
+  color: aliceblue;
+}
+
+.uv-severe {
+  background-color: red;
+  color: aliceblue;
+}
+
 .center {
   display: flex;
   justify-content: center;
