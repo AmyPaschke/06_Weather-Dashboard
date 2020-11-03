@@ -20,6 +20,10 @@ let uvIndex = $("#uv-index");
 let msgDiv = $("#msg");
 let city = null;
 
+//sets the date with the help of Moment.js
+let today = moment();
+let date = today.format("MM/DD/YYYY");
+
 //empty array we push cities into
 let previousCities = [];
 
@@ -56,7 +60,7 @@ function storeCities() {
 function renderCityWeather(response) {
   msgDiv.empty();
   console.log(response);
-  cityName.html("<h3>" + city + "</h3>");
+  cityName.html("<h3>" + city + " (" + date + ")" + "</h3>");
   temperature.text("Temperature: " + response.current.temp);
 
   //sets the color of the uv index
@@ -91,7 +95,7 @@ function addToSearchHistory() {
 $(document).on("click", ".previous-city", function (event) {
   event.preventDefault();
   fetchResultsForCity(city);
-  renderCityWeather();
+  //renderCityWeather();
 });
 
 //main function finding the information from the API
