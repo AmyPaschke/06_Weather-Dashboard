@@ -14,6 +14,7 @@ THEN I am presented with the last searched city forecast */
 
 let APIKey = "31d362c3396b74ca1d3b07eb462756e2";
 let searchedCities = $("#previous-city-search");
+let cityName = $(".city");
 let temperature = $("#temperature");
 let humidity = $("#humidity");
 let windSpeed = $("#wind-speed");
@@ -44,8 +45,13 @@ function storeCities() {
   localStorage.setItem("city", JSON.stringify(previousCities));
 }
 
-function renderCityWeather(results) {
-  console.log(results);
+function renderCityWeather(response) {
+  console.log(response);
+  cityName.html("<h3>" + city + "</h3>");
+  temperature.text("Temperature: " + response.current.temp);
+  humidity.text("Humidity: " + response.current.humidity);
+  windSpeed.text("Wind Speed: " + response.current.wind_speed);
+  uvIndex.text("UV Index: " + response.current.uvi);
 }
 
 //something wrong with this function
