@@ -19,6 +19,7 @@ let temperature = $("#temperature");
 let humidity = $("#humidity");
 let windSpeed = $("#wind-speed");
 let uvIndex = $("#uv-index");
+let msgDiv = $("#msg");
 let city = null;
 
 //empty array we push cities into
@@ -41,11 +42,17 @@ $("#button").on("click", function (event) {
   addToSearchHistory(city);
 });
 
+function displayMessage(type, message) {
+  msgDiv.text(message);
+  msgDiv.attr("class", type);
+}
+
 function storeCities() {
   localStorage.setItem("city", JSON.stringify(previousCities));
 }
 
 function renderCityWeather(response) {
+  msgDiv.empty();
   console.log(response);
   cityName.html("<h3>" + city + "</h3>");
   temperature.text("Temperature: " + response.current.temp);
@@ -54,7 +61,6 @@ function renderCityWeather(response) {
   uvIndex.text("UV Index: " + response.current.uvi);
 }
 
-//something wrong with this function
 function addToSearchHistory() {
   searchedCities.empty();
   for (let i = 0; i < previousCities.length; i++) {
@@ -84,8 +90,9 @@ function fetchResultsForCity(city) {
     method: "GET",
   })
     .fail(function () {
+      msgDiv.removeAttr("hidden");
       //displaySearchError(city, response.cod);
-      console.log("Oops! We do not have data on that city name.");
+      displayMessage("error", "Oops, we don't have information on this city!");
     })
     .done(function (response) {
       let queryURL =
@@ -100,7 +107,11 @@ function fetchResultsForCity(city) {
         method: "GET",
       })
         .fail(function () {
-          console.log("Oops! We do not have data on that city name.");
+          msgDiv.removeAttr("hidden");
+          displayMessage(
+            "error",
+            "Oops, we don't have information on this city!"
+          );
         })
         .done(function (response) {
           renderCityWeather(response);
