@@ -84,11 +84,11 @@ function renderCityWeather(response) {
   for (let i = 0; i < 5; i++) {
     let forecastDiv = $("<div class='forecast'>");
 
-    let dailyTemp = response.daily[i].temp.day;
+    let dailyTemp = (response.daily[i].temp.day - 273.15) * 1.8 + 32;
     let dailyHumidity = response.daily[i].humidity;
 
     let pDate = $("<p>").text(today.add(1, "days"));
-    let pTemp = $("<p>").text("Temperature: " + dailyTemp);
+    let pTemp = $("<p>").text("Temp: " + dailyTemp.toFixed(1) + " degrees");
     let pHumidity = $("<p>").text("Humidity: " + dailyHumidity + "%");
     forecastDiv.append(pDate);
     forecastDiv.append(pTemp);
