@@ -17,6 +17,9 @@ let humidity = $("#humidity");
 let windSpeed = $("#wind-speed");
 let uvIndex = $("#uv-index");
 let msgDiv = $("#msg");
+
+let fiveDayForecast = $(".forecast-text");
+
 let city = null;
 
 //sets the date with the help of Moment.js
@@ -58,7 +61,6 @@ function storeCities() {
 //renders the weather information we need
 function renderCityWeather(response) {
   msgDiv.empty();
-  console.log(response);
   cityName.html("<h3>" + city + " (" + date + ")" + "</h3>");
 
   let tempF = (response.current.temp - 273.15) * 1.8 + 32;
@@ -73,11 +75,23 @@ function renderCityWeather(response) {
     uvIndex.attr("class", "uv-severe");
   }
 
-  humidity.text("Humidity: " + response.current.humidity);
+  humidity.text("Humidity: " + response.current.humidity + "%");
   windSpeed.text("Wind Speed: " + response.current.wind_speed);
   uvIndex.text("UV Index: " + response.current.uvi);
 
-  let queryURL = "";
+  //loop to add in 5-day forecast info
+  for (let i = 0; i < 5; i++) {
+    let forecastDiv = $("<div class='forecast'>");
+
+    let dailyTemp = response.daily[i].temp.day;
+    let dailyHumidity = response.daily[i].humidity;
+
+    let pTemp = $("<p>").text("Temperature: " + dailyTemp);
+    let pHumidity = $("<p>").text("Humidity: " + dailyHumidity + "%");
+    forecastDiv.append(pTemp);
+    forecastDiv.append(pHumidity);
+    fiveDayForecast.prepend(forecastDiv);
+  }
 }
 
 //adds city names underneath search bar
@@ -138,8 +152,6 @@ function fetchResultsForCity(city) {
         })
         .done(function (response) {
           renderCityWeather(response);
-          cityQueryUrl(response);
-          console.log(cityQueryUrl(response));
         });
     });
 }
