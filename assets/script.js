@@ -79,16 +79,13 @@ function renderCityWeather(response) {
   windSpeed.text("Wind Speed: " + response.current.wind_speed);
   uvIndex.text("UV Index: " + response.current.uvi);
 
-  let numbers = [1, 2, 3, 4, 5];
-
   //loop to add in 5-day forecast info
-  for (let i = 0; i < numbers.length; i++) {
+  for (let i = 0; i < 5; i++) {
     let forecastDiv = $("<div class='forecast'>");
 
     let dailyTemp = response.daily[i].temp.day;
     let dailyHumidity = response.daily[i].humidity;
 
-    //let pDate = $("<p>").text(today.add(1, "days"));
     let pDate = $("<p>").text(today.add(1, "days"));
     let pTemp = $("<p>").text("Temperature: " + dailyTemp);
     let pHumidity = $("<p>").text("Humidity: " + dailyHumidity + "%");
@@ -160,22 +157,3 @@ function fetchResultsForCity(city) {
         });
     });
 }
-
-/*function cityQueryUrl(city) {
-  return (
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
-    city +
-    "&appid=d80bc189a8c0b58ef3d9e2a35d5f2757"
-  );
-}
-
-function weatherQueryUrl(coord) {
-  return (
-    "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&lat=" +
-    coord.lat +
-    "&lon=" +
-    coord.lon +
-    "&appid=" +
-    APIKey
-  );
-}*/
