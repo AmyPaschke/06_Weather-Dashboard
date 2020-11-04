@@ -7,8 +7,7 @@ WHEN I view future weather conditions for that city
 THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
-WHEN I open the weather dashboard
-THEN I am presented with the last searched city forecast */
+*/
 
 let APIKey = "31d362c3396b74ca1d3b07eb462756e2";
 let searchedCities = $("#previous-city-search");
@@ -61,7 +60,9 @@ function renderCityWeather(response) {
   msgDiv.empty();
   console.log(response);
   cityName.html("<h3>" + city + " (" + date + ")" + "</h3>");
-  temperature.text("Temperature: " + response.current.temp);
+
+  let tempF = (response.current.temp - 273.15) * 1.8 + 32;
+  temperature.text("Temperature (F): " + tempF.toFixed(2) + " degrees");
 
   //sets the color of the uv index
   if (response.current.uvi < 3) {
@@ -75,6 +76,8 @@ function renderCityWeather(response) {
   humidity.text("Humidity: " + response.current.humidity);
   windSpeed.text("Wind Speed: " + response.current.wind_speed);
   uvIndex.text("UV Index: " + response.current.uvi);
+
+  let queryURL = "";
 }
 
 //adds city names underneath search bar
@@ -135,16 +138,17 @@ function fetchResultsForCity(city) {
         })
         .done(function (response) {
           renderCityWeather(response);
+          cityQueryUrl(response);
+          console.log(cityQueryUrl(response));
         });
     });
 }
-/*
-function cityQueryUrl(city) {
+
+/*function cityQueryUrl(city) {
   return (
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     city +
-    "&appid=" +
-    APIKey
+    "&appid=d80bc189a8c0b58ef3d9e2a35d5f2757"
   );
 }
 
@@ -157,4 +161,4 @@ function weatherQueryUrl(coord) {
     "&appid=" +
     APIKey
   );
-} */
+}*/

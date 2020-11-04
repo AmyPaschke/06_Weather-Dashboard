@@ -37,9 +37,14 @@ p {
 .previous-city {
   color: #333333;
   margin: auto;
+  margin-bottom: 5px;
   border-style: solid;
   border-width: thin;
   border-color: #333333;
+}
+
+.previous-city:hover {
+  border-color: pink;
 }
 
 /* specifically the section with the header*/
