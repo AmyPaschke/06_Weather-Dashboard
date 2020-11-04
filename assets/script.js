@@ -80,14 +80,24 @@ function renderCityWeather(response) {
   windSpeed.text("Wind Speed: " + response.current.wind_speed);
   uvIndex.text("UV Index: " + response.current.uvi);
 
+  let dateArray = [
+    moment().add(1, "days"),
+    moment().add(2, "days"),
+    moment().add(3, "days"),
+    moment().add(4, "days"),
+    moment().add(5, "days"),
+  ];
+
+  console.log(dateArray[0]);
+
   //loop to add in 5-day forecast info
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < dateArray.length; i++) {
     let forecastDiv = $("<div class='forecast'>");
 
     let dailyTemp = (response.daily[i].temp.day - 273.15) * 1.8 + 32;
     let dailyHumidity = response.daily[i].humidity;
 
-    let pDate = $("<p>").text(today.add(1, "days"));
+    let pDate = $("<p>").text(dateArray[i]);
     let pTemp = $("<p>").text("Temp: " + dailyTemp.toFixed(1) + " degrees");
     let pHumidity = $("<p>").text("Humidity: " + dailyHumidity + "%");
     forecastDiv.append(pDate);
