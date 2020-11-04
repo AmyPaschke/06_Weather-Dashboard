@@ -61,6 +61,7 @@ function storeCities() {
 //renders the weather information we need
 function renderCityWeather(response) {
   msgDiv.empty();
+  fiveDayForecast.empty();
   cityName.html("<h3>" + city + " (" + date + ")" + "</h3>");
 
   let tempF = (response.current.temp - 273.15) * 1.8 + 32;
@@ -113,6 +114,7 @@ function addToSearchHistory() {
 //when you click the city name under the search bar, it will re-do the search for that city
 $(document).on("click", ".previous-city", function (event) {
   event.preventDefault();
+  console.log("previous city search");
   fetchResultsForCity(city);
   //renderCityWeather();
 });
