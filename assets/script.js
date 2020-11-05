@@ -14,6 +14,7 @@ let temperature = $("#temperature");
 let humidity = $("#humidity");
 let windSpeed = $("#wind-speed");
 let uvIndex = $("#uv-index");
+let weatherIcon = $("#weather-icon");
 let msgDiv = $("#msg");
 
 let fiveDayForecast = $(".forecast-text");
@@ -25,7 +26,9 @@ let today = moment();
 let date = today.format("MM/DD/YYYY");
 
 //empty array we push cities into
-let previousCities = [];
+let previousCities = JSON.parse(localStorage.getItem("city")) || [];
+
+addToSearchHistory();
 
 //main function-- used to begin all other functions on the page
 $("#button").on("click", function (event) {
@@ -38,11 +41,13 @@ $("#button").on("click", function (event) {
     return;
   }
 
-  previousCities.push(city);
+  if (!previousCities.includes(city)) {
+    previousCities.unshift(city);
+  }
 
   fetchResultsForCity(city);
   storeCities(city);
-  addToSearchHistory(city);
+  addToSearchHistory();
 });
 
 //displays an error message when a city name does not exist
@@ -74,19 +79,23 @@ function renderCityWeather(response) {
     uvIndex.attr("class", "uv-severe");
   }
 
+  weatherIcon.attr(
+    "src",
+    "http://openweathermap.org/img/w/" +
+      response.current.weather[0].icon +
+      ".png"
+  );
   humidity.text("Humidity: " + response.current.humidity + "%");
   windSpeed.text("Wind Speed: " + response.current.wind_speed);
   uvIndex.text("UV Index: " + response.current.uvi);
 
   let dateArray = [
-    moment().add(1, "days"),
-    moment().add(2, "days"),
-    moment().add(3, "days"),
-    moment().add(4, "days"),
-    moment().add(5, "days"),
+    moment().add(1, "days").format("dddd MMMM DD"),
+    moment().add(2, "days").format("dddd MMMM DD"),
+    moment().add(3, "days").format("dddd MMMM DD"),
+    moment().add(4, "days").format("dddd MMMM DD"),
+    moment().add(5, "days").format("dddd MMMM DD"),
   ];
-
-  console.log(dateArray[0]);
 
   //loop to add in 5-day forecast info
   for (let i = 0; i < dateArray.length; i++) {
@@ -95,9 +104,16 @@ function renderCityWeather(response) {
     let dailyTemp = (response.daily[i].temp.day - 273.15) * 1.8 + 32;
     let dailyHumidity = response.daily[i].humidity;
 
+    let imageEl = $("<img>").attr(
+      "src",
+      "http://openweathermap.org/img/w/" +
+        response.daily[i].weather[0].icon +
+        ".png"
+    );
     let pDate = $("<p>").text(dateArray[i]);
     let pTemp = $("<p>").text("Temp: " + dailyTemp.toFixed(1) + " degrees");
     let pHumidity = $("<p>").text("Humidity: " + dailyHumidity + "%");
+    forecastDiv.append(imageEl);
     forecastDiv.append(pDate);
     forecastDiv.append(pTemp);
     forecastDiv.append(pHumidity);
@@ -122,9 +138,9 @@ function addToSearchHistory() {
 //when you click the city name under the search bar, it will re-do the search for that city
 $(document).on("click", ".previous-city", function (event) {
   event.preventDefault();
-  console.log("previous city search");
-  fetchResultsForCity(city);
-  //renderCityWeather();
+  let searchValue = $(this).text();
+  city = searchValue;
+  fetchResultsForCity(searchValue);
 });
 
 //main function finding the information from the API
